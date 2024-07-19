@@ -1,79 +1,67 @@
-@st.cache_data
-def from_data_file(filename):
-    url = (
-        "https://raw.githubusercontent.com/streamlit/"
-        "example-data/master/hello/v1/%s" % filename
-    )
-    return pd.read_json(url)
+import streamlit as st
+import pandas as pd
 
-try:
-    ALL_LAYERS = {
-        "Bike Rentals": pdk.Layer(
-            "HexagonLayer",
-            data=from_data_file("bike_rental_stats.json"),
-            get_position=["lon", "lat"],
-            radius=200,
-            elevation_scale=4,
-            elevation_range=[0, 1000],
-            extruded=True,
-        ),
-        "Bart Stop Exits": pdk.Layer(
-            "ScatterplotLayer",
-            data=from_data_file("bart_stop_stats.json"),
-            get_position=["lon", "lat"],
-            get_color=[200, 30, 0, 160],
-            get_radius="[exits]",
-            radius_scale=0.05,
-        ),
-        "Bart Stop Names": pdk.Layer(
-            "TextLayer",
-            data=from_data_file("bart_stop_stats.json"),
-            get_position=["lon", "lat"],
-            get_text="name",
-            get_color=[0, 0, 0, 200],
-            get_size=10,
-            get_alignment_baseline="'bottom'",
-        ),
-        "Outbound Flow": pdk.Layer(
-            "ArcLayer",
-            data=from_data_file("bart_path_stats.json"),
-            get_source_position=["lon", "lat"],
-            get_target_position=["lon2", "lat2"],
-            get_source_color=[200, 30, 0, 160],
-            get_target_color=[200, 30, 0, 160],
-            auto_highlight=True,
-            width_scale=0.0001,
-            get_width="outbound",
-            width_min_pixels=3,
-            width_max_pixels=30,
-        ),
-    }
-    st.sidebar.markdown("### Map Layers")
-    selected_layers = [
-        layer
-        for layer_name, layer in ALL_LAYERS.items()
-        if st.sidebar.checkbox(layer_name, True)
-    ]
-    if selected_layers:
-        st.pydeck_chart(
-            pdk.Deck(
-                map_style=None,
-                initial_view_state={
-                    "latitude": 37.76,
-                    "longitude": -122.4,
-                    "zoom": 11,
-                    "pitch": 50,
-                },
-                layers=selected_layers,
-            )
-        )
-    else:
-        st.error("Please choose at least one layer above.")
-except URLError as e:
-    st.error(
-        """
-        **This demo requires internet access.**
-        Connection error: %s
-    """
-        % e.reason
-    )
+
+
+st.title("Quieres aprender Streamlit?")
+st.subheader("Hi! I'm Subheader")
+st.header("Hi! I am Header")
+st.text("**Hola** este es mi primer Streamlit Web App ,\n es una aplicacion muy eficiente, "
+        "puede ser utli para mostrar datos, y graficos desde un aplicativo web\n "
+        "desde el punto de vista de la web puede ser muy util el empleo de esta tecnologia")
+st.markdown("Hola este es mi primer Streamlit Web App")
+st.markdown("**Hello** World")
+
+st.markdown("# Hello World")
+st.markdown("## Hello World")
+st.markdown("### Hello World")
+st.markdown("#### Hello World")
+st.markdown("##### Hello World")
+st.markdown("###### Hello World")
+
+st.markdown("**bold text**")
+
+st.markdown("*Italiziced text*")
+
+st.markdown("> Block\n >\n >> - Blockquote anidade\n >> - B2")
+
+st.markdown(">> - *Blockquote*")
+
+st.markdown("1. First Item\n 2. Second Item\n 3. Third Item\n       1. Idented1\n       2. Idented2\n       3. Thirt\n 4. Four Item")
+
+st.markdown("`st.markdown( arg )`")
+
+
+st.markdown("[Google](https://www.google.com)")
+
+st.caption(" Como hacer una Matrix en Latex con Letra Pequena")
+
+st.latex(r"\begin{pmatrix}a&b\\c&d\end{pmatrix}")
+
+json = {"a":"1,2,3","b":"4,5,6"}
+st.json(json)
+
+code = """ 
+print("Hello World")
+def funct():
+    return 0;"""
+st.code(code)
+
+st.text("Se emplea el siguiente codigo para un DataFrame en Pandas:")
+code_DataFrame = """
+df = pd.DataFrame({
+  'First column': [1, 2, 3, 4],
+  'Second column': [10, 20, 30, 40]
+})
+df
+"""
+st.code(code_DataFrame)
+
+st.text("Se obtiene la siguiente visualizacion:")
+df = pd.DataFrame({
+  'First column': [1, 2, 3, 4],
+  'Second column': [10, 20, 30, 40]
+})
+df
+
+st.write('st.write()')
